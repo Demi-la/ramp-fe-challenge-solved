@@ -76,7 +76,7 @@ We don't have a real API for this challenge, so we added some utilities to simul
 2. Click on the **Filter by employee** select to open the options dropdown
 3. Scroll down the page
 
-**Expected:** Options dropdown moves with its parent input as you scroll the page
+**Expected:** Options dropdown moves with its parent input as you scroll the pagetgit remote remove origin
 
 **Actual:** Options dropdown stays in the same position as you scroll the page, losing the reference to the select input
 

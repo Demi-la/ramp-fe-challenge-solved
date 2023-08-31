@@ -8,41 +8,6 @@ import { useTransactionsByEmployee } from "./hooks/useTransactionsByEmployee"
 import { EMPTY_EMPLOYEE } from "./utils/constants"
 import { Employee } from "./utils/types"
 
-// export function App() {
-//   const { data: employees, ...employeeUtils } = useEmployees()
-//   const { data: paginatedTransactions, ...paginatedTransactionsUtils } = usePaginatedTransactions()
-//   const { data: transactionsByEmployee, ...transactionsByEmployeeUtils } = useTransactionsByEmployee()
-//   const [isLoading, setIsLoading] = useState(false)
-
-//   const transactions = useMemo(
-//     () => paginatedTransactions?.data ?? transactionsByEmployee ?? null,
-//     [paginatedTransactions, transactionsByEmployee]
-//   )
-
-//   const loadAllTransactions = useCallback(async () => {
-//     setIsLoading(true)
-//     transactionsByEmployeeUtils.invalidateData()
-
-//     await employeeUtils.fetchAll()
-//     await paginatedTransactionsUtils.fetchAll()
-
-//     setIsLoading(false)
-//   }, [employeeUtils, paginatedTransactionsUtils, transactionsByEmployeeUtils])
-
-//   const loadTransactionsByEmployee = useCallback(
-//     async (employeeId: string) => {
-//       paginatedTransactionsUtils.invalidateData()
-//       await transactionsByEmployeeUtils.fetchById(employeeId)
-//     },
-//     [paginatedTransactionsUtils, transactionsByEmployeeUtils]
-//   )
-
-//   useEffect(() => {
-//     if (employees === null && !employeeUtils.loading) {
-//       loadAllTransactions()
-//     }
-//     console.log(transactionsByEmployee)
-//   }, [employeeUtils.loading, employees, loadAllTransactions, transactionsByEmployee])
 
 export function App() {
   const { data: employees, ...employeeUtils } = useEmployees()

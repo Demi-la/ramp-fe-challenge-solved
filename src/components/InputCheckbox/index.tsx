@@ -1,22 +1,9 @@
 import classNames from "classnames"
-import { useRef, useEffect, useState } from "react"
+import { useRef } from "react"
 import { InputCheckboxComponent } from "./types"
 
-
-
-export const InputCheckbox: InputCheckboxComponent = ({ id, checked: initialChecked = false, disabled, onChange }) => {
- const { current: inputId } = useRef(`RampInputCheckbox-${id}`);
-
-
-  const [checked, setChecked] = useState(() => {
-    const storedValue = localStorage.getItem(inputId)
-    return storedValue !== null ? JSON.parse(storedValue) : initialChecked 
-  })
-
-  useEffect(() => {
-    localStorage.setItem(inputId, JSON.stringify(checked))
-  }, [inputId, checked])
-
+export const InputCheckbox: InputCheckboxComponent = ({ id, checked = false, disabled, onChange }) => {
+  const { current: inputId } = useRef(`RampInputCheckbox-${id}`)
 
   return (
     <div className="RampInputCheckbox--container" data-testid={inputId}>
@@ -33,10 +20,7 @@ export const InputCheckbox: InputCheckboxComponent = ({ id, checked: initialChec
         className="RampInputCheckbox--input"
         checked={checked}
         disabled={disabled}
-        onChange={() => {
-          setChecked((prevChecked: boolean) => !prevChecked)
-          onChange(!checked)
-        }}
+        onChange={() => onChange(!checked)}
       />
     </div>
   )

@@ -8,11 +8,46 @@ import { useTransactionsByEmployee } from "./hooks/useTransactionsByEmployee"
 import { EMPTY_EMPLOYEE } from "./utils/constants"
 import { Employee } from "./utils/types"
 
+// export function App() {
+//   const { data: employees, ...employeeUtils } = useEmployees()
+//   const { data: paginatedTransactions, ...paginatedTransactionsUtils } = usePaginatedTransactions()
+//   const { data: transactionsByEmployee, ...transactionsByEmployeeUtils } = useTransactionsByEmployee()
+//   const [isLoading, setIsLoading] = useState(false)
+
+//   const transactions = useMemo(
+//     () => paginatedTransactions?.data ?? transactionsByEmployee ?? null,
+//     [paginatedTransactions, transactionsByEmployee]
+//   )
+
+//   const loadAllTransactions = useCallback(async () => {
+//     setIsLoading(true)
+//     transactionsByEmployeeUtils.invalidateData()
+
+//     await employeeUtils.fetchAll()
+//     await paginatedTransactionsUtils.fetchAll()
+
+//     setIsLoading(false)
+//   }, [employeeUtils, paginatedTransactionsUtils, transactionsByEmployeeUtils])
+
+//   const loadTransactionsByEmployee = useCallback(
+//     async (employeeId: string) => {
+//       paginatedTransactionsUtils.invalidateData()
+//       await transactionsByEmployeeUtils.fetchById(employeeId)
+//     },
+//     [paginatedTransactionsUtils, transactionsByEmployeeUtils]
+//   )
+
+//   useEffect(() => {
+//     if (employees === null && !employeeUtils.loading) {
+//       loadAllTransactions()
+//     }
+//     console.log(transactionsByEmployee)
+//   }, [employeeUtils.loading, employees, loadAllTransactions, transactionsByEmployee])
+
 export function App() {
   const { data: employees, ...employeeUtils } = useEmployees()
   const { data: paginatedTransactions, ...paginatedTransactionsUtils } = usePaginatedTransactions()
   const { data: transactionsByEmployee, ...transactionsByEmployeeUtils } = useTransactionsByEmployee()
-  const [isLoading, setIsLoading] = useState(false)
 
   const transactions = useMemo(
     () => paginatedTransactions?.data ?? transactionsByEmployee ?? null,
@@ -20,13 +55,10 @@ export function App() {
   )
 
   const loadAllTransactions = useCallback(async () => {
-    setIsLoading(true)
     transactionsByEmployeeUtils.invalidateData()
-
+   
     await employeeUtils.fetchAll()
     await paginatedTransactionsUtils.fetchAll()
-
-    setIsLoading(false)
   }, [employeeUtils, paginatedTransactionsUtils, transactionsByEmployeeUtils])
 
   const loadTransactionsByEmployee = useCallback(
@@ -41,11 +73,9 @@ export function App() {
     if (employees === null && !employeeUtils.loading) {
       loadAllTransactions()
     }
-    console.log(transactionsByEmployee)
-  }, [employeeUtils.loading, employees, loadAllTransactions, transactionsByEmployee])
+  }, [employeeUtils.loading, employees, loadAllTransactions])
 
-
-    const showButton = transactionsByEmployee === null && paginatedTransactions?.nextPage !== null
+  // const showButton = transactionsByEmployee === null && paginatedTransactions?.nextPage !== null
 
   return (
     <Fragment>
@@ -55,7 +85,7 @@ export function App() {
         <hr className="RampBreak--l" />
 
         <InputSelect<Employee>
-          isLoading={isLoading}
+          isLoading={employeeUtils.loading}
           defaultValue={EMPTY_EMPLOYEE}
           items={employees === null ? [] : [EMPTY_EMPLOYEE, ...employees]}
           label="Filter by employee"
@@ -79,7 +109,7 @@ export function App() {
         <div className="RampGrid">
           <Transactions transactions={transactions} />
 
-          {showButton  && (
+          {transactions !== null && paginatedTransactions?.nextPage && (
             <button
               className="RampButton"
               disabled={paginatedTransactionsUtils.loading}
